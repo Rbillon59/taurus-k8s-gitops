@@ -1,5 +1,6 @@
 modules:
   jmeter:
+    version: 5.2.1
     path: ~/.bzt/jmeter-taurus/bin/jmeter
     properties:
       protocol: https
@@ -8,7 +9,6 @@ modules:
       threads: 1
       rampup: 1
       duration: 60
-
 execution:   
   - distributed: [hostToSed]
     concurrency: ${__P(threads,1)} 

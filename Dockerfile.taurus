@@ -23,7 +23,7 @@ RUN addgroup bzt && \
 
 USER bzt
 
-ARG PROJECT=my-scenario
+ARG PROJECT
 ARG BZT_PATH=/home/bzt/.bzt/jmeter-taurus/bin/
 ENV ENV_PROJECT=${PROJECT}
 
