@@ -5,6 +5,7 @@ metadata:
   labels:
     taurus_mode: master
 spec:
+  backoffLimit: 0
   completions: 1
   template:
     metadata:
@@ -35,4 +36,3 @@ spec:
           initialDelaySeconds: 5
           periodSeconds: 5
       restartPolicy: Never
-      maxRetries: "0"
