@@ -1,0 +1,38 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: taurus-master
+  labels:
+    taurus_mode: master
+spec:
+  completions: 1
+  template:
+    metadata:
+      labels:
+        taurus_mode: master
+    spec:
+      containers:
+      - name: taurus-master
+        image: rbillon59/gitops-k8s-taurus
+        imagePullPolicy: Always
+        env:
+        - name: MODE
+          value: "MASTER"
+        ports:
+        - containerPort: 60000
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "128m"
+          limits:
+            memory: "512Mi"
+            cpu: "256m"
+        livenessProbe:
+          exec:
+            command:
+            - cat
+            - /bin/bash
+          initialDelaySeconds: 5
+          periodSeconds: 5
+      restartPolicy: Never
+      maxRetries: "0"

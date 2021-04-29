@@ -1,0 +1,39 @@
+modules:
+  jmeter:
+    path: ~/.bzt/jmeter-taurus/bin/jmeter
+    properties:
+      protocol: https
+      host: google.com
+      port: 443
+      threads: 1
+      rampup: 1
+      duration: 60
+
+execution:   
+  - distributed: [hostToSed]
+    concurrency: ${__P(threads,1)} 
+    ramp-up: ${__P(rampup,1)} 
+    hold-for: ${__P(duration,60)} 
+    criteria:
+    - fail>0%
+    - avg-rt>5s
+    scenario: myScenario
+
+
+
+ 
+
+scenarios:
+  myScenario:
+    retrieve-resources: false
+    properties:
+      server.rmi.ssl.disable: true
+    default-address: https://google.com
+    requests: 
+      - /
+
+reporting:
+- module: blazemeter
+  report-name: ${__P(resultName,my-ci-scenario-report)} 
+  upload-artifacts: true  # upload artifacts when test is finished
+- module: passfail # this is to enable passfail module

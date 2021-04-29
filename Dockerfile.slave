@@ -1,0 +1,19 @@
+FROM rbillon59/jmeter-k8s-base:5.2.1
+
+
+ARG PROJECT=my-scenario
+ENV ENV_PROJECT=${PROJECT}
+
+
+COPY scenario /tmp/scenario
+COPY entrypoint.sh /tmp/entrypoint.sh
+
+USER jmeter
+WORKDIR /opt/jmeter/apache-jmeter/bin
+
+# Taurus JMeter plugin installation
+RUN ./PluginsManagerCMD.sh install jpgc-casutg,jpgc-dummy,jpgc-ffw,jpgc-fifo,jpgc-functions,jpgc-json,jpgc-perfmon,jpgc-prmctl,jpgc-tst
+
+
+ENTRYPOINT "/tmp/entrypoint.sh" ${ENV_PROJECT}
+
