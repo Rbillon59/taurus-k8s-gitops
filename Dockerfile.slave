@@ -2,6 +2,8 @@
 ARG JMETER_VERSION
 FROM rbillon59/jmeter-k8s-base:${JMETER_VERSION}
 
+WORKDIR /opt/jmeter/apache-jmeter/bin
+
 # Taurus JMeter plugin installation
 RUN ./PluginsManagerCMD.sh install jpgc-casutg,jpgc-dummy,jpgc-ffw,jpgc-fifo,jpgc-functions,jpgc-json,jpgc-perfmon,jpgc-prmctl,jpgc-tst
 
@@ -13,7 +15,6 @@ COPY scenario /tmp/scenario
 COPY entrypoint.sh /tmp/entrypoint.sh
 
 USER jmeter
-WORKDIR /opt/jmeter/apache-jmeter/bin
 
 ENTRYPOINT "/tmp/entrypoint.sh" ${ENV_PROJECT}
 
