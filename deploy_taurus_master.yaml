@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: taurus-master
-        image: rbillon59/taurus-k8s-gitops:my-scenario
+        image: rbillon59/taurus-k8s-gitops:my-scenario-master
         imagePullPolicy: Always
         env:
         - name: MODE

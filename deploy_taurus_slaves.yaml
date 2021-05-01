@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: jmslave
-        image: rbillon59/gitops-k8s-jmeter-slave:my-scenario
+        image: rbillon59/taurus-k8s-gitops:my-scenario-slave
         imagePullPolicy: Always
         env:
         - name: MODE
