@@ -2,7 +2,6 @@
 
 # Get project from Dockerfile
 project="${1}"
-bzt_path="/home/bzt/.bzt/jmeter-taurus/bin/"
 jmeter_path="/opt/jmeter/apache-jmeter/bin"
 
 source "/tmp/scenario/${project}/.env"
@@ -35,16 +34,13 @@ fi
 
 if [ "${MODE}" == "MASTER" ]; then
     echo "Launching JMeter master $(hostname)"
-    param_host="-Ghost=${host} -Gport=${port} -Gprotocol=${protocol}"
-    param_user="-Gthreads=${threads} -Gduration=${duration} -Grampup=${rampup}"
-
     set -x
 
     slave_list=$(getent ahostsv4 taurus-slaves-svc | cut -d" " -f1 | sort -u | awk -v ORS=, '{print $1}' | sed 's/,$//')
 
     sed -i 's/hostToSed/'${slave_list}'/g' "${project}.yml"
 
-    bzt -o modules.jmeter.properties.host=${host} -o jmeter.properties.port=${port} -o jmeter.properties.protocol=${protocol} -o jmeter.properties.threads=${threads} -o jmeter.properties.duration=${duration} -o jmeter.properties.rampup=${rampup} "${project}.yml"
+    bzt "${project}.yml"
 
     #jmeter ${param_host} ${param_user} --logfile ${project}_$(date +"%F_%H%M%S").jtl --nongui --testfile ${project}.jmx -Dserver.rmi.ssl.disable=true --remotestart $(getent ahostsv4 jmeter-slaves-svc | cut -d" " -f1 | sort -u | awk -v ORS=, '{print $1}' | sed 's/,$//')
 
